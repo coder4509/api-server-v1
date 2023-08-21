@@ -12,4 +12,6 @@ app.get('/api', (req, res) => {
   //res.sendFile(path.resolve('./pages/index.html'));
 });
 
-module.exports = app;
+app.listen(8081, ()=> {
+  console.log("Server Running on :: ==>", 8081);
+});
