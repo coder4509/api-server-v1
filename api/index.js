@@ -22,6 +22,11 @@ sharp(buffer).resize(200, 230)
   .then( data => {
     const fileData = Buffer.from(data).toString('base64');
     res.send( `<div>
+    <div>
+      <a href='/'> Back </a>
+    </div>
+    <hr/>
+    <br/>
     <a href='data:${mimetype};base64,${fileData}' download>
        <img src= 'data:${mimetype};base64,${fileData}' width='200' height='200' />
     </a>
