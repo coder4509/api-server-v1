@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const sharp = require('sharp');
 const multer  = require('multer');
+const axios = require('axios');
 
 const upload = multer();
 
@@ -36,6 +37,13 @@ sharp(buffer).resize(200, 230)
   .catch( err => { console.log(err); res.send('error...') });
 });
 
+app.get('/health-check', (req, res) => {
+  res.send('Server health ok....');
+});
+
 app.listen(8081, ()=> {
   console.log("Server Running on :: ==>", 8081);
+  setInterval(() => {
+    axios.get('https://api-server-4oak.onrender.com/health-check');
+  }, 10000);
 });
