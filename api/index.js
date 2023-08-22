@@ -38,6 +38,7 @@ sharp(buffer).resize(200, 230)
 });
 
 app.get('/health-check', (req, res) => {
+  console.log('Server health ok....');
   res.send('Server health ok....');
 });
 
