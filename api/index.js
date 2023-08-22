@@ -28,7 +28,7 @@ sharp(buffer).resize(200, 230)
     </div>
     <hr/>
     <br/>
-    <a href='data:${mimetype};base64,${fileData}' download='${originalname}_${uid}'>
+    <a href='data:${mimetype};base64,${fileData}' download>
        <img src= 'data:${mimetype};base64,${fileData}' width='200' height='200' />
     </a>
     </div>`);
