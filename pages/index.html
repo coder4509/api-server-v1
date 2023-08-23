@@ -42,6 +42,8 @@
                 class="form-control mb-2"
                 name="uploaded_file"
                 id="compress-file"
+                accept="image/*"
+                onchange="onFileChange()"
                 required
               />
             </div>
@@ -67,45 +69,63 @@
     </div>
     <script>
       const compressImg = () => {
-          const inputFile = document.getElementById('compress-file');
-          const buttomSpin = document.getElementById('buttom-spinner');
-          const buttomTxt = document.getElementById('buttom-text');
-          const buttomComp = document.getElementById('compress-button');
-          buttomSpin.setAttribute('class', 'spinner-grow spinner-grow-sm');
-          buttomTxt.innerText = 'Compressing....';
-          buttomComp.setAttribute('disabled', true);
-          if (!inputFile.files.length) {
-              buttomSpin.setAttribute('class', '');
-              buttomTxt.innerText = 'Compress';
-              buttomComp.removeAttribute('disabled');
-              return alert('Please upload image');
-          }
-          const formData = new FormData();
-          const {name, type} = inputFile.files[0];
-          if (!type.includes('image')) {
-              buttomSpin.setAttribute('class', '');
-              buttomTxt.innerText = 'Compress';
-              buttomComp.removeAttribute('disabled');
-              return alert('Please upload valid image');
-          }
-          formData.append('uploaded_file', inputFile.files[0]);
-          formData.append('name', 'uploaded_file');
-          formData.append('filename', name);
-          fetch(decodeURIComponent('/compress'), {
-              method: 'POST',
-              body: formData
-          }).then((res)=>res.text()).then(res=>{
-              buttomSpin.setAttribute('class', '');
-              buttomTxt.innerText = 'Compress';
-              buttomComp.removeAttribute('disabled');
-              console.log(res);
-          }).catch(err=>{
-              buttomSpin.setAttribute('class', '');
-              buttomTxt.innerText = 'Compress';
-              buttomComp.removeAttribute('disabled');
-              alert('Somthing wents wrong!!!');
+        const inputFile = document.getElementById("compress-file");
+        const buttomSpin = document.getElementById("buttom-spinner");
+        const buttomTxt = document.getElementById("buttom-text");
+        const buttomComp = document.getElementById("compress-button");
+        buttomSpin.setAttribute("class", "spinner-grow spinner-grow-sm");
+        buttomTxt.innerText = "Compressing....";
+        buttomComp.setAttribute("disabled", true);
+        if (!inputFile.files.length) {
+          buttomSpin.setAttribute("class", "");
+          buttomTxt.innerText = "Compress";
+          buttomComp.removeAttribute("disabled");
+          return alert("Please upload image");
+        }
+        const formData = new FormData();
+        const { name, type } = inputFile.files[0];
+        if (!type.includes("image")) {
+          buttomSpin.setAttribute("class", "");
+          buttomTxt.innerText = "Compress";
+          buttomComp.removeAttribute("disabled");
+          return alert("Please upload valid image");
+        }
+        formData.append("uploaded_file", inputFile.files[0]);
+        formData.append("name", "uploaded_file");
+        formData.append("filename", name);
+        fetch(decodeURIComponent("/compress"), {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => res.text())
+          .then((res) => {
+            buttomSpin.setAttribute("class", "");
+            buttomTxt.innerText = "Compress";
+            buttomComp.removeAttribute("disabled");
+            console.log(res);
           })
+          .catch((err) => {
+            buttomSpin.setAttribute("class", "");
+            buttomTxt.innerText = "Compress";
+            buttomComp.removeAttribute("disabled");
+            alert("Somthing wents wrong!!!");
+          });
+      };
+      function formatFileSize(bytes, decimalPoint) {
+        if (bytes == 0) return "0 Bytes";
+        var k = 1000,
+          dm = decimalPoint || 2,
+          sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+          i = Math.floor(Math.log(bytes) / Math.log(k));
+        return (
+          parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i]
+        );
       }
+      const onFileChange = () => {
+        const inputFile = document.getElementById("compress-file");
+        const { size } = inputFile.files[0];
+        console.log(formatFileSize(size));
+      };
     </script>
   </body>
 </html>
