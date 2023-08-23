@@ -12,13 +12,16 @@
   </style>
 </head>
   <body>
-    <div class="container">
+    <div class="container clearfix">
       <div class="align-middle">
         <form action="/" enctype="multipart/form-data" method="post">
-  <div class="form-group">
-    <input type="file" class="form-control-file" name="uploaded_file">
-    <input type="submit" value="Compress" class="btn btn-default">            
+          <div class="input-group mb-3">
+  <div class="custom-file">
+    <input type="file" class="custom-file-input" id="inputGroupFile01" name="uploaded_file">
+    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
   </div>
+</div>
+    <input type="submit" value="Compress" class="btn btn-outline-info">            
 </form>
       </div>
     </div>
