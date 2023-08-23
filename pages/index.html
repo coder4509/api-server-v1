@@ -88,7 +88,7 @@
               buttomComp.removeAttribute('disabled');
               return alert('Please upload valid image');
           }
-          formData.append('file', inputFile.files[0]);
+          formData.append('uploaded_file', inputFile.files[0]);
           formData.append('name', 'uploaded_file');
           formData.append('filename', name);
           fetch(decodeURIComponent('/compress'), {
