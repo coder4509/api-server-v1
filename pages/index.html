@@ -92,6 +92,7 @@
           formData.append('name', 'uploaded_file');
           formData.append('filename', name);
           fetch({
+              url: decodeURIComponent('/')
               method: 'POST',
               body: formData,
               headers: {
