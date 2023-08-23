@@ -93,10 +93,7 @@
           formData.append('filename', name);
           fetch(decodeURIComponent('/compress'), {
               method: 'POST',
-              body: formData,
-              headers: {
-                  'Content-Type': 'multipart/form-data'
-              }
+              body: formData
           }).then((res)=>res.text()).then(res=>{
               buttomSpin.setAttribute('class', '');
               buttomTxt.innerText = 'Compress';
