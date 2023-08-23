@@ -35,29 +35,80 @@
     <div class="container clearfix">
       <div class="h-100 d-flex justify-content-center align-items-center">
         <form action="/" enctype="multipart/form-data" method="post">
-            <div class="form-row align-items-center">
-              <div class="col-auto text-center">
-                <input type="file" class="form-control mb-2" name="uploaded_file" id="compress-file" required>
-              </div>
-              <div class="col-auto text-center">
-                <button type="button" class="btn btn-outline-info mb-2" onclick="compressImg()">
-                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                    <span class="visually-hidden">Loading...</span>
-                </button>
-              </div>
+          <div class="form-row align-items-center">
+            <div class="col-auto text-center">
+              <input
+                type="file"
+                class="form-control mb-2"
+                name="uploaded_file"
+                id="compress-file"
+                required
+              />
             </div>
-          </form>
+            <div class="col-auto text-center">
+              <button
+                type="button"
+                id="compress-button"
+                class="btn btn-outline-info mb-2"
+                onclick="compressImg()"
+              >
+                <span
+                  class="spinner-grow spinner-grow-sm"
+                  role="status"
+                  aria-hidden="true"
+                  id="buttom-spinner"
+                ></span>
+                <span class="visually" id="buttom-text">Compress</span>
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
     <script>
-        const compressImg = () => {
-            const inputFile = document.getElementById('compress-file');
-            console.log(inputFile);
-            const formData = new FormData();
-            formData.append('file', inputFile.files[0]);
-            formData.append('name', 'uploaded_file');
-            formData.append('filename', '');
-        }
+      const compressImg = () => {
+          const inputFile = document.getElementById('compress-file');
+          const buttomSpin = document.getElementById('buttom-spinner');
+          const buttomTxt = document.getElementById('buttom-text');
+          const buttomComp = document.getElementById('compress-button');
+          buttomSpin.setAttribute('class', 'spinner-grow spinner-grow-sm');
+          buttomTxt.innerText = 'Compressing....';
+          buttomComp.setAttribute('disabled', true);
+          if (!inputFile.files.length) {
+              buttomSpin.setAttribute('class', '');
+              buttomTxt.innerText = 'Compress';
+              buttomComp.setAttribute('disabled', false);
+              return alert('Please upload image');
+          }
+          const formData = new FormData();
+          const {name, type} = inputFile.files[0];
+          if (!type.includes('image')) {
+              buttomSpin.setAttribute('class', '');
+              buttomTxt.innerText = 'Compress';
+              buttomComp.setAttribute('disabled', false);
+              return alert('Please upload valid image');
+          }
+          formData.append('file', inputFile.files[0]);
+          formData.append('name', 'uploaded_file');
+          formData.append('filename', name);
+          fetch({
+              method: 'POST',
+              body: formData,
+              headers: {
+                  'Content-Type': 'multipart/form-data'
+              }
+          }).then((res)=>res.text()).then(res=>{
+              buttomSpin.setAttribute('class', '');
+              buttomTxt.innerText = 'Compress';
+              buttomComp.setAttribute('disabled', false);
+              console.log(res);
+          }).catch(err=>{
+              buttomSpin.setAttribute('class', '');
+              buttomTxt.innerText = 'Compress';
+              buttomComp.setAttribute('disabled', false);
+              alert('Somthing wents wrong!!!');
+          })
+      }
     </script>
   </body>
 </html>
