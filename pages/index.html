@@ -37,15 +37,27 @@
         <form action="/" enctype="multipart/form-data" method="post">
             <div class="form-row align-items-center">
               <div class="col-auto text-center">
-                <label class="sr-only" for="inlineFormInput">Upload Pic</label>
-                <input type="file" class="form-control mb-2" name="uploaded_file" required>
+                <input type="file" class="form-control mb-2" name="uploaded_file" id="compress-file" required>
               </div>
               <div class="col-auto text-center">
-                <button type="submit" class="btn btn-outline-info mb-2">Compress</button>
+                <button type="button" class="btn btn-outline-info mb-2" onclick="compressImg()">
+                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                    <span class="visually-hidden">Loading...</span>
+                </button>
               </div>
             </div>
           </form>
       </div>
     </div>
+    <script>
+        const compressImg = () => {
+            const inputFile = document.getElementById('compress-file');
+            console.log(inputFile);
+            const formData = new FormData();
+            formData.append('file', inputFile.files[0]);
+            formData.append('name', 'uploaded_file');
+            formData.append('filename', '');
+        }
+    </script>
   </body>
 </html>
