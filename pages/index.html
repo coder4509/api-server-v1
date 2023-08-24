@@ -65,8 +65,8 @@
             </div>
           </div>
         </form>
-      </div>
-      <div id="compress-imgs">
+        <hr/>
+        <div id="compress-imgs"></div>
       </div>
     </div>
     <script>
@@ -106,8 +106,8 @@
             buttomComp.removeAttribute("disabled");
             const resData = res && JSON.parse(res);
             if (resData.status === 200) {
-            const elemComp = document.getElementById("compress-imgs");
-            elemComp.innerHTML = `<div class='text-center'>
+              const elemComp = document.getElementById("compress-imgs");
+              elemComp.innerHTML = `<div class='text-center'>
             <h3> Compressed Image </h3>
             <br/>
             <a href='${resData.data}' download> <img src='${resData.data}' width='200' height='200'/> </a>
