@@ -66,6 +66,8 @@
           </div>
         </form>
       </div>
+      <div id="compress-imgs">
+      </div>
     </div>
     <script>
       const compressImg = () => {
@@ -103,6 +105,14 @@
             buttomTxt.innerText = "Compress";
             buttomComp.removeAttribute("disabled");
             console.log(res);
+            if (res.status === 200) {
+            const elemComp = document.getElementById("compress-imgs");
+            elemComp.innerHTML = `<div>
+            <h3> Compress Imange </h3>
+            <br/>
+            <a href='${res.data}' download> <img src='${res.data}' /> </a>;
+            </div>`;
+            }
           })
           .catch((err) => {
             buttomSpin.setAttribute("class", "");
