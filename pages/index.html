@@ -105,12 +105,13 @@
             buttomTxt.innerText = "Compress";
             buttomComp.removeAttribute("disabled");
             console.log(res);
-            if (res.status === 200) {
+            const resData = res && JSON.parse(res);
+            if (resData.status === 200) {
             const elemComp = document.getElementById("compress-imgs");
             elemComp.innerHTML = `<div>
             <h3> Compress Imange </h3>
             <br/>
-            <a href='${res.data}' download> <img src='${res.data}' width='200' height='200'/> </a>;
+            <a href='${resData.data}' download> <img src='${resData.data}' width='200' height='200'/> </a>;
             </div>`;
             }
           })
