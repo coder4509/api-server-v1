@@ -21,6 +21,7 @@ app.post("/compress", upload.single("uploaded_file"), (req, res) => {
   const {w, h} = req.query;
   const sharpBuffer = sharp(buffer);
   if (w && h && Number(w) && Number(h)) {
+    console.log('resize', w, h);
     sharpBuffer.resize(parseInt(w), parseInt(h));
   }
   sharpBuffer.sharpen()
