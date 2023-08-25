@@ -20,8 +20,8 @@ app.post("/compress", upload.single("uploaded_file"), (req, res) => {
   const { buffer, mimetype, originalname } = req.file;
   const {w, h} = req.query;
   const sharpBuffer = sharp(buffer);
-  if (w && h && Numner(w) && Number(h)) {
-    sharpBuffer.resize(w, h);
+  if (w && h && Number(w) && Number(h)) {
+    sharpBuffer.resize(parseInt(w), parseInt(h));
   }
   sharpBuffer.sharpen()
     .jpeg({ mozjpeg: true })
