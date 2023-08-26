@@ -58,7 +58,7 @@ app.listen(8081, () => {
         if (err) {
           console.log("Google Ads:: Error", err);
         }
-        console.log("file created...txt");
+        console.log("file created...txt", path.resolve(__dirname, "ads.txt"));
       }
     );
   }
