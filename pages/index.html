@@ -140,10 +140,7 @@
       //  alert
       const myAlert = document.getElementById('toast-alert');
       const toastAlert = new bootstrap.Toast(myAlert);
-      toastAlert.show();
-      return {
-        hide: toastAlert.hide
-      }
+      return toastAlert;
     }
 
     const modalIt = (htmlNode, callBack) => {
@@ -171,7 +168,7 @@
         buttomSpin.setAttribute("class", "");
         buttomTxt.innerText = "Compress";
         buttomComp.removeAttribute("disabled");
-        return toastIt('warn');
+        return toastIt('warn').show();
       }
       const formData = new FormData();
       const { name, type } = inputFile.files[0];
@@ -179,7 +176,7 @@
         buttomSpin.setAttribute("class", "");
         buttomTxt.innerText = "Compress";
         buttomComp.removeAttribute("disabled");
-        return toastIt('warn');
+        return toastIt('warn').show();
       }
       formData.append("uploaded_file", inputFile.files[0]);
       formData.append("name", "uploaded_file");
@@ -195,17 +192,17 @@
           buttomComp.removeAttribute("disabled");
           const resData = res && JSON.parse(res);
           if (resData.status === 200) {
-            const hideEv = toastIt('success');
-            modalIt(`<a href="${resData.data}" download><img src="${resData.data}" class="img-fluid rounded img-thumbnail" id="img-compress" width="200" height="200" alt="compress image" /></a>`, hideEv.hide);
+            toastIt('success').show();
+            modalIt(`<a href="${resData.data}" download><img src="${resData.data}" class="img-fluid rounded img-thumbnail" id="img-compress" width="200" height="200" alt="compress image" /></a>`, toastIt('success').hide);
           } else {
-            toastIt('error');
+            toastIt('error').show();
           }
         })
         .catch((err) => {
           buttomSpin.setAttribute("class", "");
           buttomTxt.innerText = "Compress";
           buttomComp.removeAttribute("disabled");
-          toastIt('error');
+          toastIt('error').show();
         });
     };
     function formatFileSize(bytes, decimalPoint) {
