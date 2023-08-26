@@ -49,19 +49,6 @@ app.get("/health-check", (req, res) => {
 
 app.listen(8081, () => {
   console.log("Server Running on :: ==>", 8081);
-  if (!fs.existsSync(path.resolve(__dirname, "ads.txt"))) {
-    fs.writeFile(
-      path.resolve(__dirname, "ads.txt"),
-      "google.com, pub-7911786683089581, DIRECT, f08c47fec0942fa0",
-      "utf-8",
-      (err) => {
-        if (err) {
-          console.log("Google Ads:: Error", err);
-        }
-        console.log("file created...txt", path.resolve(__dirname, "ads.txt"));
-      }
-    );
-  }
   setInterval(() => {
     axios.get("https://api-server-4oak.onrender.com/health-check");
   }, 10000);
