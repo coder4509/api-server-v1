@@ -48,20 +48,38 @@
     <div id="compress-imgs"></div>
     <!-- Toast -->
     <div class="toast-container position-absolute p-3 top-0 end-0" style="z-index: 11">
-      <div class="toast text-dark hide" id="toast-alert" role="alert" aria-live="polite" aria-atomic="true" id="liveToast">
+      <div class="toast text-dark hide" id="toast-alert" role="alert" aria-live="polite" aria-atomic="true"
+        id="liveToast">
         <div class="toast-header text-white bg-dark">
           <i class="bi bi-check-circle-fill me-2" id="icon-id"></i>
           <div class="me-auto" id="type-id"></div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+            aria-label="Close"></button>
         </div>
         <div class="toast-body" id="toast-body-id">
           Image Compression has been done successfully....!!
         </div>
       </div>
     </div>
+    
+    <!-- Image Download Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Download Compress Image</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center" id="modal-body-id"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <script>
-
     const toastObj = {
       success: {
         icon: 'bi bi-shield-fill-check',
@@ -93,6 +111,15 @@
       const myAlert = document.getElementById('toast-alert');
       const toastAlert = new bootstrap.Toast(myAlert);
       toastAlert.show();
+    }
+
+    const modalIt = (htmlNode) => {
+      const myModalAlert = document.getElementById('staticBackdrop');
+      const renderBody = htmlNode;
+      const modalBody = document.getElementById('modal-body-id');
+      modalBody.innerHTML = renderBody;
+      const modalShow = new bootstrap.Modal(myModalAlert);
+      modalShow.show();
     }
     const compressImg = () => {
       const inputFile = document.getElementById("compress-file");
@@ -133,12 +160,7 @@
           const resData = res && JSON.parse(res);
           if (resData.status === 200) {
             toastIt('success');
-            const elemComp = document.getElementById("compress-imgs");
-            elemComp.innerHTML = `<div class='text-center'>
-            <h3> Compressed Image </h3>
-            <br/>
-            <a href='${resData.data}' download> <img src='${resData.data}' class="img-fluid rounded img-thumbnail" width="200" height="250" /> </a>
-            </div>`;
+            modalIt(`<a href="${resData.data}" download><img src="${resData.data}" class="img-fluid rounded img-thumbnail" id="img-compress" width="200" height="200" alt="compress image" /></a>`)
           } else {
             toastIt('error');
           }
