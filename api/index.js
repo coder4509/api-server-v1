@@ -18,13 +18,14 @@ app.post("/compress", upload.single("uploaded_file"), (req, res) => {
   const { width, height } = req.body;
   console.log(req.body, req.file);
   const { buffer, mimetype, originalname } = req.file;
-  const {w, h} = req.query;
+  const { w, h } = req.query;
   const sharpBuffer = sharp(buffer);
   if (w && h && Number(w) && Number(h)) {
-    console.log('resize', w, h);
+    console.log("resize", w, h);
     sharpBuffer.resize(parseInt(w), parseInt(h));
   }
-  sharpBuffer.sharpen()
+  sharpBuffer
+    .sharpen()
     .jpeg({ mozjpeg: true })
     .toBuffer()
     .then((data) => {
@@ -48,6 +49,19 @@ app.get("/health-check", (req, res) => {
 
 app.listen(8081, () => {
   console.log("Server Running on :: ==>", 8081);
+  if (!fs.existsSync(path.resolve(__dirname, "ads.txt"))) {
+    fs.writeFile(
+      path.resolve(__dirname, "ads.txt"),
+      "google.com, pub-7911786683089581, DIRECT, f08c47fec0942fa0",
+      "utf-8",
+      (err) => {
+        if (err) {
+          console.log("Google Ads:: Error", err);
+        }
+        console.log("file created...txt");
+      }
+    );
+  }
   setInterval(() => {
     axios.get("https://api-server-4oak.onrender.com/health-check");
   }, 10000);
