@@ -149,9 +149,6 @@
       const modalBody = document.getElementById('modal-body-id');
       modalBody.innerHTML = renderBody;
       const modalShow = new bootstrap.Modal(myModalAlert);
-      if (callBack && typeof callBack === 'function') {
-        callBack();
-      }
       modalShow.show();
     }
     const compressImg = () => {
@@ -193,7 +190,7 @@
           const resData = res && JSON.parse(res);
           if (resData.status === 200) {
             toastIt('success').show();
-            modalIt(`<a href="${resData.data}" download><img src="${resData.data}" class="img-fluid rounded img-thumbnail" id="img-compress" width="200" height="200" alt="compress image" /></a>`, toastIt('success').hide);
+            modalIt(`<a href="${resData.data}" download><img src="${resData.data}" class="img-fluid rounded img-thumbnail" id="img-compress" width="200" height="200" alt="compress image" /></a>`);
           } else {
             toastIt('error').show();
           }
