@@ -53,11 +53,11 @@
     <div class="h-100 d-flex justify-content-center align-items-center">
       <form>
         <div class="form-row align-items-center">
-          <div class="col-auto text-center">
+          <div class="col-auto text-center p-2">
             <input type="file" class="form-control mb-2" name="uploaded_file" id="compress-file" accept="image/*"
               onchange="onFileChange()" required />
           </div>
-          <div col-auto text-center>
+          <div class="col-auto text-center p-2">
             <div class="input-group mb-3">
               <input type="number" class="form-control" id="pic-width" placeholder="Width" aria-label="Width" min="100"
                 value="">
@@ -66,7 +66,7 @@
                 min="100" value="">
             </div>
           </div>
-          <div class="col-auto text-center">
+          <div class="col-auto text-center p-2">
             <button type="button" id="compress-button" class="btn btn-outline-info mb-2" onclick="compressImg()">
               <span class="" role="status" aria-hidden="true" id="buttom-spinner"></span>
               <span class="visually" id="buttom-text">Compress</span>
@@ -95,7 +95,7 @@
     <!-- Image Download Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
       aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">Download Compress Image</h5>
@@ -141,14 +141,20 @@
       const myAlert = document.getElementById('toast-alert');
       const toastAlert = new bootstrap.Toast(myAlert);
       toastAlert.show();
+      return {
+        hide: toastAlert.hide
+      }
     }
 
-    const modalIt = (htmlNode) => {
+    const modalIt = (htmlNode, callBack) => {
       const myModalAlert = document.getElementById('staticBackdrop');
       const renderBody = htmlNode;
       const modalBody = document.getElementById('modal-body-id');
       modalBody.innerHTML = renderBody;
       const modalShow = new bootstrap.Modal(myModalAlert);
+      if (callBack && typeof callBack === 'function') {
+        callBack();
+      }
       modalShow.show();
     }
     const compressImg = () => {
@@ -189,8 +195,8 @@
           buttomComp.removeAttribute("disabled");
           const resData = res && JSON.parse(res);
           if (resData.status === 200) {
-            toastIt('success');
-            modalIt(`<a href="${resData.data}" download><img src="${resData.data}" class="img-fluid rounded img-thumbnail" id="img-compress" width="200" height="200" alt="compress image" /></a>`)
+            const hideEv = toastIt('success');
+            modalIt(`<a href="${resData.data}" download><img src="${resData.data}" class="img-fluid rounded img-thumbnail" id="img-compress" width="200" height="200" alt="compress image" /></a>`, hideEv.hide);
           } else {
             toastIt('error');
           }
